@@ -48,6 +48,19 @@ export class SkinsController {
     return this.skinsService.findOneById(id);
   }
 
+
+  @Get("user/:id")
+  @ApiOperation({ summary: "Listar skins por um id" })
+  @ApiResponse({
+    status: 200,
+    description: "Dados de skins retornada com sucesso",
+  })
+  @ApiResponse({ status: 400, description: "Parametros inválidos" })
+  async findAllById(@Param("id") id: number) {
+    return this.skinsService.findAllById(id);
+  }
+
+
   @Patch(":id")
   @ApiOperation({ summary: "Atualizar uma única skin" })
   @ApiResponse({

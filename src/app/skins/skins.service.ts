@@ -10,6 +10,7 @@ import { PrismaService } from "src/database/prisma.service";
 @Injectable()
 export class SkinsService {
   constructor(private readonly prismaService: PrismaService) {}
+
   async findAll() {
     try {
       return await this.prismaService.skin.findMany({
@@ -31,6 +32,16 @@ export class SkinsService {
   async findOneById(id: number) {
     try {
       return await this.prismaService.skin.findFirstOrThrow({
+        where: { id, deletedAt: null },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  async findAllById(id: number) {
+    try {
+      return await this.prismaService.skin.findMany({
         where: { id, deletedAt: null },
       });
     } catch (error) {

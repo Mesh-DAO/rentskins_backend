@@ -1,26 +1,57 @@
-import { Injectable } from '@nestjs/common';
-import { CreateWalletDto } from './dto/create-wallet.dto';
-import { UpdateWalletDto } from './dto/update-wallet.dto';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import { CreateWalletDto } from "./dto/create-wallet.dto";
+import { UpdateWalletDto } from "./dto/update-wallet.dto";
+import { PrismaService } from "src/database/prisma.service";
 
 @Injectable()
 export class WalletService {
-  create(createWalletDto: CreateWalletDto) {
-    return 'This action adds a new wallet';
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async findAll() {
+    try {
+      return await this.prismaService.wallet.findMany({
+        where: { deletedAt: null },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
-  findAll() {
-    return `This action returns all wallet`;
+  async createNew(data: CreateWalletDto) {
+    try {
+      await this.prismaService.wallet.create({ data });
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} wallet`;
+  async findOneById(id: number) {
+    try {
+      return await this.prismaService.wallet.findFirstOrThrow({
+        where: { id, deletedAt: null },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
-  update(id: number, updateWalletDto: UpdateWalletDto) {
-    return `This action updates a #${id} wallet`;
+  async updateById(id: number, data: UpdateWalletDto) {
+    await this.findOneById(id);
+    return await this.prismaService.wallet.update({
+      where: { id },
+      data: { ...data, updatedAt: new Date() },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} wallet`;
+  async deleteById(id: number) {
+    await this.findOneById(id);
+    await this.prismaService.wallet.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
   }
 }

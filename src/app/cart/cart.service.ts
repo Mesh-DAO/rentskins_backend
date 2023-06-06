@@ -1,26 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class CartService {
-  create(createCartDto: CreateCartDto) {
-    return 'This action adds a new cart';
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async findAll() {
+    try {
+      return await this.prismaService.cart.findMany({
+        where: { deletedAt: null },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
-  findAll() {
-    return `This action returns all cart`;
+  async createNew(data: CreateCartDto) {
+    try {
+      await this.prismaService.cart.create({ data });
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cart`;
+  async findOneById(id: number) {
+    try {
+      return await this.prismaService.cart.findFirstOrThrow({
+        where: { id, deletedAt: null },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
-  update(id: number, updateCartDto: UpdateCartDto) {
-    return `This action updates a #${id} cart`;
+  async updateById(id: number, data: UpdateCartDto) {
+    await this.findOneById(id);
+    return await this.prismaService.cart.update({
+      where: { id },
+      data: { ...data, updatedAt: new Date() },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cart`;
+  async deleteById(id: number) {
+    await this.findOneById(id);
+    await this.prismaService.cart.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
   }
 }
