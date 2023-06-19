@@ -3,18 +3,17 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateCartDto } from './dto/create-cart.dto';
-import { UpdateCartDto } from './dto/update-cart.dto';
+import { CreateConfigurationDto } from './dto/create-configuration.dto';
+import { UpdateConfigurationDto } from './dto/update-configuration.dto';
 import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
-export class CartService {
+export class ConfigurationService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAll() {
     try {
-      return await this.prismaService.cart.findMany({
-        include: { buyer_skins: true },
+      return await this.prismaService.configuration.findMany({
         where: { deletedAt: null },
       });
     } catch (error) {
@@ -22,9 +21,9 @@ export class CartService {
     }
   }
 
-  async createNew(data: CreateCartDto) {
+  async createNew(data: CreateConfigurationDto) {
     try {
-      await this.prismaService.cart.create({ data });
+      await this.prismaService.configuration.create({ data });
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -32,8 +31,7 @@ export class CartService {
 
   async findOneById(id: number) {
     try {
-      return await this.prismaService.cart.findFirstOrThrow({
-        include: { buyer_skins: true },
+      return await this.prismaService.configuration.findFirstOrThrow({
         where: { id, deletedAt: null },
       });
     } catch (error) {
@@ -41,20 +39,9 @@ export class CartService {
     }
   }
 
-  async findOneByBuyer(buyer_id: string) {
-    try {
-      return await this.prismaService.cart.findFirstOrThrow({
-        include: { buyer_skins: true },
-        where: { buyer_id, deletedAt: null },
-      });
-    } catch (error) {
-      throw new NotFoundException(error.message);
-    }
-  }
-
-  async updateById(id: number, data: UpdateCartDto) {
+  async updateById(id: number, data: UpdateConfigurationDto) {
     await this.findOneById(id);
-    return await this.prismaService.cart.update({
+    return await this.prismaService.configuration.update({
       where: { id },
       data: { ...data, updatedAt: new Date() },
     });
@@ -62,7 +49,7 @@ export class CartService {
 
   async deleteById(id: number) {
     await this.findOneById(id);
-    await this.prismaService.cart.update({
+    await this.prismaService.configuration.update({
       where: { id },
       data: { deletedAt: new Date() },
     });

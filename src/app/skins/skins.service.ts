@@ -2,10 +2,10 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
-} from "@nestjs/common";
-import { CreateSkinDto } from "./dto/create-skin.dto";
-import { UpdateSkinDto } from "./dto/update-skin.dto";
-import { PrismaService } from "src/database/prisma.service";
+} from '@nestjs/common';
+import { CreateSkinDto } from './dto/create-skin.dto';
+import { UpdateSkinDto } from './dto/update-skin.dto';
+import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
 export class SkinsService {
@@ -29,38 +29,50 @@ export class SkinsService {
     }
   }
 
-  async findOneById(id: number) {
+  async findOneById(seller_id: string) {
     try {
       return await this.prismaService.skin.findFirstOrThrow({
-        where: { id, deletedAt: null },
+        where: { seller_id, deletedAt: null },
       });
     } catch (error) {
       throw new NotFoundException(error.message);
     }
   }
 
-  async findAllById(id: number) {
+  async findAllById(seller_id: string) {
     try {
       return await this.prismaService.skin.findMany({
-        where: { id, deletedAt: null },
+        where: { seller_id, deletedAt: null },
       });
     } catch (error) {
       throw new NotFoundException(error.message);
     }
   }
 
-  async updateById(id: number, data: UpdateSkinDto) {
-    await this.findOneById(id);
+  async findLastSellsById(seller_id: string) {
+    try {
+      const skins = await this.prismaService.skin.findMany({
+        where: { seller_id, deletedAt: null },
+      });
+
+      return 'asd';
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  async updateById(seller_id: string, data: UpdateSkinDto) {
+    await this.findOneById(seller_id);
     return await this.prismaService.skin.update({
-      where: { id },
+      where: { id: Number(seller_id) },
       data: { ...data, updatedAt: new Date() },
     });
   }
 
-  async deleteById(id: number) {
-    await this.findOneById(id);
+  async deleteById(seller_id: string) {
+    await this.findOneById(seller_id);
     await this.prismaService.skin.update({
-      where: { id },
+      where: { id: Number(seller_id) },
       data: { deletedAt: new Date() },
     });
   }

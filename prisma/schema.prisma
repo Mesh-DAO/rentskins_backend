@@ -9,24 +9,28 @@ datasource db {
 }
 
 model Skin {
-  id            Int       @id @default(autoincrement())
-  skin_image    String?   @db.VarChar(255)
-  skin_name     String    @db.VarChar(255)
-  skin_category String    @db.VarChar(255)
-  skin_weapon   String    @db.VarChar(255)
-  skin_price    String    @db.VarChar(255)
-  skin_float    String    @db.VarChar(255)
-  seller_name   String    @db.VarChar(255)
-  seller_id     String    @db.VarChar(255)
-  buyer_name    String?   @db.VarChar(255)
-  buyer_id      String?   @db.VarChar(255)
-  status        String    @db.VarChar(255)
-  sale_type     String?   @db.VarChar(255)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime?
-  deletedAt     DateTime?
-  buyer_cart    Cart?     @relation(fields: [cartId], references: [id])
-  cartId        Int?
+  id              Int       @id @default(autoincrement())
+  skin_image      String?   @db.VarChar(255)
+  skin_name       String    @db.VarChar(255)
+  skin_category   String    @db.VarChar(255)
+  skin_weapon     String    @db.VarChar(255)
+  skin_price      String    @db.VarChar(255)
+  skin_float      String    @db.VarChar(255)
+  skin_color      String    @db.VarChar(255)
+  skin_link_game  String    @db.VarChar(255)
+  skin_link_steam String    @db.VarChar(255)
+  seller_name     String    @db.VarChar(255)
+  seller_id       String    @db.VarChar(255)
+  buyer_name      String?   @db.VarChar(255)
+  buyer_id        String?   @db.VarChar(255)
+  status          String    @db.VarChar(255)
+  status_float    String    @db.VarChar(255)
+  sale_type       String?   @db.VarChar(255)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime?
+  deletedAt       DateTime?
+  buyer_cart      Cart?     @relation(fields: [cartId], references: [id])
+  cartId          Int?
 }
 
 model Cart {
@@ -47,4 +51,17 @@ model Wallet {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime?
   deletedAt  DateTime?
+}
+
+model Configuration {
+  id          Int       @id @default(autoincrement())
+  owner_name  String    @db.VarChar(255)
+  owner_id    String    @db.VarChar(255)
+  owner_email String    @db.VarChar(255)
+  url_trade   String    @db.VarChar(255)
+  url_sell    String    @db.VarChar(255)
+  steam_guard Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime?
+  deletedAt   DateTime?
 }
