@@ -21,24 +21,6 @@ export class SkinsService {
     }
   }
 
-  async createNew(data: CreateSkinDto) {
-    try {
-      await this.prismaService.skin.create({ data });
-    } catch (error) {
-      throw new BadRequestException(error.message);
-    }
-  }
-
-  async findOneById(seller_id: string) {
-    try {
-      return await this.prismaService.skin.findFirstOrThrow({
-        where: { seller_id, deletedAt: null },
-      });
-    } catch (error) {
-      throw new NotFoundException(error.message);
-    }
-  }
-
   async findAllById(seller_id: string) {
     try {
       return await this.prismaService.skin.findMany({
@@ -49,30 +31,112 @@ export class SkinsService {
     }
   }
 
-  async findLastSellsById(seller_id: string) {
+  async findAllByBuyer(buyer_id: string) {
     try {
-      const skins = await this.prismaService.skin.findMany({
-        where: { seller_id, deletedAt: null },
+      return await this.prismaService.skin.findMany({
+        where: { buyer_id, deletedAt: null },
       });
-
-      return 'asd';
     } catch (error) {
       throw new NotFoundException(error.message);
     }
   }
 
-  async updateById(seller_id: string, data: UpdateSkinDto) {
-    await this.findOneById(seller_id);
+  async findAllByWeapon(data: { skin_weapon: string }) {
+    try {
+      const skin_weapon = data.skin_weapon;
+      return await this.prismaService.skin.findMany({
+        where: { skin_weapon, deletedAt: null },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  async findAllByCategory(data: { skin_category: string }) {
+    try {
+      const skin_category = data.skin_category;
+      return await this.prismaService.skin.findMany({
+        where: { skin_category, deletedAt: null },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  async findAllByFloat(data: { status_float: string }) {
+    try {
+      const status_float = data.status_float;
+      return await this.prismaService.skin.findMany({
+        where: { status_float, deletedAt: null },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  async findAllByDescPrice() {
+    try {
+      return await this.prismaService.skin.findMany({
+        where: { deletedAt: null },
+        orderBy: { skin_price: 'desc' },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  async findAllByDescFloat() {
+    try {
+      return await this.prismaService.skin.findMany({
+        where: { deletedAt: null },
+        orderBy: { skin_float: 'desc' },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  async createNew(data: CreateSkinDto) {
+    try {
+      await this.prismaService.skin.create({ data });
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async findOneById(id: number) {
+    try {
+      return await this.prismaService.skin.findFirstOrThrow({
+        where: { id, deletedAt: null },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  async findLastSellsById(seller_id: string) {
+    try {
+      return await this.prismaService.skin.findMany({
+        where: { seller_id, deletedAt: null },
+        orderBy: { createdAt: 'desc' },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  async updateById(id: number, data: UpdateSkinDto) {
+    await this.findOneById(id);
     return await this.prismaService.skin.update({
-      where: { id: Number(seller_id) },
+      where: { id: Number(id) },
       data: { ...data, updatedAt: new Date() },
     });
   }
 
-  async deleteById(seller_id: string) {
-    await this.findOneById(seller_id);
+  async deleteById(id: number) {
+    await this.findOneById(id);
     await this.prismaService.skin.update({
-      where: { id: Number(seller_id) },
+      where: { id },
       data: { deletedAt: new Date() },
     });
   }
