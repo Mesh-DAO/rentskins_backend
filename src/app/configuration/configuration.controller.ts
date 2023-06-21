@@ -12,9 +12,10 @@ import {
 import { ConfigurationService } from './configuration.service';
 import { CreateConfigurationDto } from './dto/create-configuration.dto';
 import { UpdateConfigurationDto } from './dto/update-configuration.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('api/v1/configuration')
+@ApiTags('Configuration')
 export class ConfigurationController {
   constructor(private readonly configurationService: ConfigurationService) {}
 
