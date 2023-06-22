@@ -51,34 +51,34 @@ export class SkinsController {
     return this.skinsService.findAllByBuyer(id);
   }
 
-  @Get('weapon')
+  @Get(':weapon')
   @ApiOperation({ summary: 'Listar todos as skins por arma' })
   @ApiResponse({
     status: 200,
     description: 'Lista das skins retornada com sucesso',
   })
-  findAllByWeapon(@Body() body: { skin_weapon: string }) {
-    return this.skinsService.findAllByWeapon(body);
+  findAllByWeapon(@Param('weapon') weapon: string) {
+    return this.skinsService.findAllByWeapon(weapon);
   }
 
-  @Get('category')
+  @Get(':category')
   @ApiOperation({ summary: 'Listar todas as skins por categoria' })
   @ApiResponse({
     status: 200,
     description: 'Lista das skins retornada com sucesso',
   })
-  findAllByCategory(@Body() body: { skin_category: string }) {
-    return this.skinsService.findAllByCategory(body);
+  findAllByCategory(@Param('category') category: string) {
+    return this.skinsService.findAllByCategory(category);
   }
 
-  @Get('float')
+  @Get(':float')
   @ApiOperation({ summary: 'Listar todas as skins pelo status do float' })
   @ApiResponse({
     status: 200,
     description: 'Lista das skins retornada com sucesso',
   })
-  findAllByFloat(@Body() body: { status_float: string }) {
-    return this.skinsService.findAllByFloat(body);
+  findAllByFloat(@Param('float') float: string) {
+    return this.skinsService.findAllByFloat(float);
   }
 
   @Get('desc-price')

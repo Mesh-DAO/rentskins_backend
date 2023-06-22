@@ -41,9 +41,8 @@ export class SkinsService {
     }
   }
 
-  async findAllByWeapon(data: { skin_weapon: string }) {
+  async findAllByWeapon(skin_weapon: string) {
     try {
-      const skin_weapon = data.skin_weapon;
       return await this.prismaService.skin.findMany({
         where: { skin_weapon, deletedAt: null },
       });
@@ -52,9 +51,8 @@ export class SkinsService {
     }
   }
 
-  async findAllByCategory(data: { skin_category: string }) {
+  async findAllByCategory(skin_category: string) {
     try {
-      const skin_category = data.skin_category;
       return await this.prismaService.skin.findMany({
         where: { skin_category, deletedAt: null },
       });
@@ -63,9 +61,8 @@ export class SkinsService {
     }
   }
 
-  async findAllByFloat(data: { status_float: string }) {
+  async findAllByFloat(status_float: string) {
     try {
-      const status_float = data.status_float;
       return await this.prismaService.skin.findMany({
         where: { status_float, deletedAt: null },
       });
