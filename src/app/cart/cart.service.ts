@@ -30,7 +30,7 @@ export class CartService {
     }
   }
 
-  async findOneById(id: number) {
+  async findOneById(id: string) {
     try {
       return await this.prismaService.cart.findFirstOrThrow({
         include: { buyer_skins: true },
@@ -52,7 +52,7 @@ export class CartService {
     }
   }
 
-  async updateById(id: number, data: UpdateCartDto) {
+  async updateById(id: string, data: UpdateCartDto) {
     await this.findOneById(id);
     return await this.prismaService.cart.update({
       where: { id },
@@ -60,7 +60,7 @@ export class CartService {
     });
   }
 
-  async deleteById(id: number) {
+  async deleteById(id: string) {
     await this.findOneById(id);
     await this.prismaService.cart.update({
       where: { id },

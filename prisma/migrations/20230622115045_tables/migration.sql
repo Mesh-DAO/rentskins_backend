@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "Skin" (
-    "id" SERIAL NOT NULL,
+    "id" VARCHAR(36) NOT NULL,
     "skin_image" VARCHAR(255),
     "skin_name" VARCHAR(255) NOT NULL,
     "skin_category" VARCHAR(255) NOT NULL,
@@ -20,14 +20,14 @@ CREATE TABLE "Skin" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
     "deletedAt" TIMESTAMP(3),
-    "cartId" INTEGER,
+    "cartId" TEXT,
 
     CONSTRAINT "Skin_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Cart" (
-    "id" SERIAL NOT NULL,
+    "id" VARCHAR(36) NOT NULL,
     "buyer_name" VARCHAR(255) NOT NULL,
     "buyer_id" VARCHAR(255) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -39,7 +39,7 @@ CREATE TABLE "Cart" (
 
 -- CreateTable
 CREATE TABLE "Wallet" (
-    "id" SERIAL NOT NULL,
+    "id" VARCHAR(36) NOT NULL,
     "owner_name" VARCHAR(255) NOT NULL,
     "owner_id" VARCHAR(255) NOT NULL,
     "value" VARCHAR(255) NOT NULL DEFAULT '0',
@@ -52,7 +52,7 @@ CREATE TABLE "Wallet" (
 
 -- CreateTable
 CREATE TABLE "Configuration" (
-    "id" SERIAL NOT NULL,
+    "id" VARCHAR(36) NOT NULL,
     "owner_name" VARCHAR(255) NOT NULL,
     "owner_id" VARCHAR(255) NOT NULL,
     "owner_email" VARCHAR(255) NOT NULL,

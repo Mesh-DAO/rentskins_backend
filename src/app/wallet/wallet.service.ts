@@ -29,7 +29,7 @@ export class WalletService {
     }
   }
 
-  async findOneById(id: number) {
+  async findOneById(id: string) {
     try {
       return await this.prismaService.wallet.findFirstOrThrow({
         where: { id, deletedAt: null },
@@ -39,7 +39,7 @@ export class WalletService {
     }
   }
 
-  async updateById(id: number, data: UpdateWalletDto) {
+  async updateById(id: string, data: UpdateWalletDto) {
     await this.findOneById(id);
     return await this.prismaService.wallet.update({
       where: { id },
@@ -47,7 +47,7 @@ export class WalletService {
     });
   }
 
-  async deleteById(id: number) {
+  async deleteById(id: string) {
     await this.findOneById(id);
     await this.prismaService.wallet.update({
       where: { id },

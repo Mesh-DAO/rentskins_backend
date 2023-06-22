@@ -44,7 +44,7 @@ export class ConfigurationController {
     description: 'Dados de uma configuração retornados com sucesso',
   })
   @ApiResponse({ status: 400, description: 'Parametros inválidos' })
-  async findOneById(@Param('id') id: number) {
+  async findOneById(@Param('id') id: string) {
     return this.configurationService.findOneById(id);
   }
 
@@ -56,7 +56,7 @@ export class ConfigurationController {
   })
   @ApiResponse({ status: 404, description: 'configuração não encontrada' })
   async updateById(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() body: UpdateConfigurationDto,
   ) {
     return this.configurationService.updateById(id, body);
@@ -70,7 +70,7 @@ export class ConfigurationController {
   })
   @ApiResponse({ status: 404, description: 'configuração não encontrada' })
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteById(@Param('id') id: number) {
+  async deleteById(@Param('id') id: string) {
     await this.configurationService.deleteById(id);
   }
 }

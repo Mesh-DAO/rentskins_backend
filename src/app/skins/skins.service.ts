@@ -104,7 +104,7 @@ export class SkinsService {
     }
   }
 
-  async findOneById(id: number) {
+  async findOneById(id: string) {
     try {
       return await this.prismaService.skin.findFirstOrThrow({
         where: { id, deletedAt: null },
@@ -125,15 +125,15 @@ export class SkinsService {
     }
   }
 
-  async updateById(id: number, data: UpdateSkinDto) {
+  async updateById(id: string, data: UpdateSkinDto) {
     await this.findOneById(id);
     return await this.prismaService.skin.update({
-      where: { id: Number(id) },
+      where: { id },
       data: { ...data, updatedAt: new Date() },
     });
   }
 
-  async deleteById(id: number) {
+  async deleteById(id: string) {
     await this.findOneById(id);
     await this.prismaService.skin.update({
       where: { id },

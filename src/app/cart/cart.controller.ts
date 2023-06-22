@@ -44,7 +44,7 @@ export class CartController {
     description: 'Dados de uma Cart retornados com sucesso',
   })
   @ApiResponse({ status: 400, description: 'Parametros inválidos' })
-  async findOneById(@Param('id') id: number) {
+  async findOneById(@Param('id') id: string) {
     return this.cartService.findOneById(id);
   }
 
@@ -66,7 +66,7 @@ export class CartController {
     description: 'Cart atualizado com sucesso',
   })
   @ApiResponse({ status: 404, description: 'Cart não encontrado' })
-  async updateById(@Param('id') id: number, @Body() body: UpdateCartDto) {
+  async updateById(@Param('id') id: string, @Body() body: UpdateCartDto) {
     return this.cartService.updateById(id, body);
   }
 
@@ -75,7 +75,7 @@ export class CartController {
   @ApiResponse({ status: 204, description: 'Cart removido com sucesso' })
   @ApiResponse({ status: 404, description: 'Cart não encontrado' })
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteById(@Param('id') id: number) {
+  async deleteById(@Param('id') id: string) {
     await this.cartService.deleteById(id);
   }
 }

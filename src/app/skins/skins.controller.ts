@@ -116,7 +116,7 @@ export class SkinsController {
     description: 'Dados de uma skin retornados com sucesso',
   })
   @ApiResponse({ status: 400, description: 'Parametros inválidos' })
-  async findOneById(@Param('id') id: number) {
+  async findOneById(@Param('id') id: string) {
     return this.skinsService.findOneById(id);
   }
 
@@ -138,7 +138,7 @@ export class SkinsController {
     description: 'Skin atualizada com sucesso',
   })
   @ApiResponse({ status: 404, description: 'Skin não encontrada' })
-  async updateById(@Param('id') id: number, @Body() body: UpdateSkinDto) {
+  async updateById(@Param('id') id: string, @Body() body: UpdateSkinDto) {
     return this.skinsService.updateById(id, body);
   }
 
@@ -147,7 +147,7 @@ export class SkinsController {
   @ApiResponse({ status: 204, description: 'Skin removida com sucesso' })
   @ApiResponse({ status: 404, description: 'Skin não encontradas' })
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteById(@Param('id') id: number) {
+  async deleteById(@Param('id') id: string) {
     await this.skinsService.deleteById(id);
   }
 }

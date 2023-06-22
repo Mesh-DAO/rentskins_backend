@@ -44,7 +44,7 @@ export class WalletController {
     description: "Dados de uma Wallet retornados com sucesso",
   })
   @ApiResponse({ status: 400, description: "Parametros inválidos" })
-  async findOneById(@Param("id") id: number) {
+  async findOneById(@Param("id") id: string) {
     return this.walletService.findOneById(id);
   }
 
@@ -55,7 +55,7 @@ export class WalletController {
     description: "Wallet atualizada com sucesso",
   })
   @ApiResponse({ status: 404, description: "Wallet não encontrada" })
-  async updateById(@Param("id") id: number, @Body() body: UpdateWalletDto) {
+  async updateById(@Param("id") id: string, @Body() body: UpdateWalletDto) {
     return this.walletService.updateById(id, body);
   }
 
@@ -64,7 +64,7 @@ export class WalletController {
   @ApiResponse({ status: 204, description: "Wallet removida com sucesso" })
   @ApiResponse({ status: 404, description: "Wallet não encontradas" })
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteById(@Param("id") id: number) {
+  async deleteById(@Param("id") id: string) {
     await this.walletService.deleteById(id);
   }
 }

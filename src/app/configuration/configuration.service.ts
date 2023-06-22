@@ -29,7 +29,7 @@ export class ConfigurationService {
     }
   }
 
-  async findOneById(id: number) {
+  async findOneById(id: string) {
     try {
       return await this.prismaService.configuration.findFirstOrThrow({
         where: { id, deletedAt: null },
@@ -39,7 +39,7 @@ export class ConfigurationService {
     }
   }
 
-  async updateById(id: number, data: UpdateConfigurationDto) {
+  async updateById(id: string, data: UpdateConfigurationDto) {
     await this.findOneById(id);
     return await this.prismaService.configuration.update({
       where: { id },
@@ -47,7 +47,7 @@ export class ConfigurationService {
     });
   }
 
-  async deleteById(id: number) {
+  async deleteById(id: string) {
     await this.findOneById(id);
     await this.prismaService.configuration.update({
       where: { id },
