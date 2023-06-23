@@ -103,7 +103,7 @@ export class SkinsService {
 
   async findOneById(id: string) {
     try {
-      return await this.prismaService.skin.findFirstOrThrow({
+      return this.prismaService.skin.findMany({
         where: { id, deletedAt: null },
       });
     } catch (error) {

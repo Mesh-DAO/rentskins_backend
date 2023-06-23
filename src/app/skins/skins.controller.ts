@@ -8,6 +8,7 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { SkinsService } from './skins.service';
 import { CreateSkinDto } from './dto/create-skin.dto';
@@ -27,6 +28,17 @@ export class SkinsController {
   })
   findAll() {
     return this.skinsService.findAll();
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Listar uma única skin' })
+  @ApiResponse({
+    status: 200,
+    description: 'Dados de uma skin retornados com sucesso',
+  })
+  @ApiResponse({ status: 400, description: 'Parametros inválidos' })
+  async findOneById(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.skinsService.findOneById(id);
   }
 
   @Get('seller/:id')
@@ -51,7 +63,7 @@ export class SkinsController {
     return this.skinsService.findAllByBuyer(id);
   }
 
-  @Get(':weapon')
+  @Get('weapon/:weapon')
   @ApiOperation({ summary: 'Listar todos as skins por arma' })
   @ApiResponse({
     status: 200,
@@ -61,7 +73,7 @@ export class SkinsController {
     return this.skinsService.findAllByWeapon(weapon);
   }
 
-  @Get(':category')
+  @Get('category/:category')
   @ApiOperation({ summary: 'Listar todas as skins por categoria' })
   @ApiResponse({
     status: 200,
@@ -71,7 +83,7 @@ export class SkinsController {
     return this.skinsService.findAllByCategory(category);
   }
 
-  @Get(':float')
+  @Get('float/:float')
   @ApiOperation({ summary: 'Listar todas as skins pelo status do float' })
   @ApiResponse({
     status: 200,
@@ -109,17 +121,6 @@ export class SkinsController {
     return this.skinsService.createNew(body);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Listar uma única skin' })
-  @ApiResponse({
-    status: 200,
-    description: 'Dados de uma skin retornados com sucesso',
-  })
-  @ApiResponse({ status: 400, description: 'Parametros inválidos' })
-  async findOneById(@Param('id') id: string) {
-    return this.skinsService.findOneById(id);
-  }
-
   @Get('seller/:id/latest')
   @ApiOperation({ summary: 'Listar ultimas skins vendidas por um vendedor' })
   @ApiResponse({
@@ -138,7 +139,10 @@ export class SkinsController {
     description: 'Skin atualizada com sucesso',
   })
   @ApiResponse({ status: 404, description: 'Skin não encontrada' })
-  async updateById(@Param('id') id: string, @Body() body: UpdateSkinDto) {
+  async updateById(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() body: UpdateSkinDto,
+  ) {
     return this.skinsService.updateById(id, body);
   }
 
