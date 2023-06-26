@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNotEmpty, MaxLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, MaxLength } from 'class-validator';
 
 export class CreateConfigurationDto {
   @IsNotEmpty({ message: 'Preencha o nome do dono!' })
@@ -14,6 +14,7 @@ export class CreateConfigurationDto {
 
   @IsNotEmpty({ message: 'Preencha o email do dono!' })
   @MaxLength(255, { message: 'Tamanho máximo de 255 caracteres!' })
+  @IsEmail()
   @ApiProperty()
   owner_email: string;
 
@@ -27,7 +28,7 @@ export class CreateConfigurationDto {
   @ApiProperty()
   url_sell: string;
 
-  @MaxLength(255, { message: 'Tamanho máximo de 255 caracteres!' })
+  @IsNotEmpty({ message: 'Preencha a Steam Guard!' })
   @ApiPropertyOptional()
   steam_guard: boolean;
 }

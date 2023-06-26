@@ -60,7 +60,7 @@ model Configuration {
   owner_email String    @db.VarChar(255)
   url_trade   String    @db.VarChar(255)
   url_sell    String    @db.VarChar(255)
-  steam_guard Boolean   @default(false)
+  steam_guard Boolean?  @default(false)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime?
   deletedAt   DateTime?
