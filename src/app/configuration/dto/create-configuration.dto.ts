@@ -28,7 +28,12 @@ export class CreateConfigurationDto {
   @ApiProperty()
   url_sell: string;
 
-  @IsNotEmpty({ message: 'Preencha a Steam Guard!' })
   @ApiPropertyOptional()
   steam_guard: boolean;
+
+  @ApiPropertyOptional()
+  agreed_with_emails: boolean;
+
+  @ApiPropertyOptional()
+  agreed_with_terms: boolean;
 }
