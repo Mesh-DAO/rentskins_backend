@@ -41,7 +41,7 @@ export class WalletService {
 
   async findOneByUser(owner_id: string) {
     try {
-      return await this.prismaService.configuration.findFirstOrThrow({
+      return await this.prismaService.wallet.findFirstOrThrow({
         where: { owner_id, deletedAt: null },
       });
     } catch (error) {
