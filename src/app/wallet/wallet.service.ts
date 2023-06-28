@@ -39,6 +39,16 @@ export class WalletService {
     }
   }
 
+  async findOneByUser(owner_id: string) {
+    try {
+      return await this.prismaService.configuration.findFirstOrThrow({
+        where: { owner_id, deletedAt: null },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
   async updateById(id: string, data: UpdateWalletDto) {
     await this.findOneById(id);
     return await this.prismaService.wallet.update({

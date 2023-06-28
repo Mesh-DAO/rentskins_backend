@@ -20,20 +20,20 @@ export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Listar todos as Notificação' })
+  @ApiOperation({ summary: 'Listar todas as Notificações' })
   @ApiResponse({
     status: 200,
-    description: 'Lista das Notificação retornada com sucesso',
+    description: 'Lista das Notificações retornada com sucesso',
   })
   findAll() {
     return this.notificationService.findAll();
   }
 
   @Get('user/:id')
-  @ApiOperation({ summary: 'Listar todos as Notificação' })
+  @ApiOperation({ summary: 'Listar todas as Notificações de um usuario' })
   @ApiResponse({
     status: 200,
-    description: 'Lista das Notificação retornada com sucesso',
+    description: 'Lista das Notificações retornada com sucesso',
   })
   findAllByUser(@Param('id') id: string) {
     return this.notificationService.findAllByUser(id);
@@ -59,17 +59,6 @@ export class NotificationController {
   @ApiResponse({ status: 400, description: 'Parametros inválidos' })
   async findOneById(@Param('id') id: string) {
     return this.notificationService.findOneById(id);
-  }
-
-  @Get('user/:id')
-  @ApiOperation({ summary: 'Listar uma unica configuração' })
-  @ApiResponse({
-    status: 200,
-    description: 'Dados de uma configuração retornados com sucesso',
-  })
-  @ApiResponse({ status: 400, description: 'Parametros inválidos' })
-  async findOneByUser(@Param('id') id: string) {
-    return this.notificationService.findOneByUser(id);
   }
 
   @Patch(':id')

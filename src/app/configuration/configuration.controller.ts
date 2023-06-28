@@ -49,7 +49,7 @@ export class ConfigurationController {
   }
 
   @Get('user/:id')
-  @ApiOperation({ summary: 'Listar uma unica configuração' })
+  @ApiOperation({ summary: 'Listar uma unica configuração de um usuario' })
   @ApiResponse({
     status: 200,
     description: 'Dados de uma configuração retornados com sucesso',
