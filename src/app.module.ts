@@ -5,9 +5,10 @@ import { WalletModule } from "./app/wallet/wallet.module";
 import { SkinsModule } from "./app/skins/skins.module";
 import { AuthModule } from './app/auth/auth.module';
 import { ConfigurationModule } from './app/configuration/configuration.module';
+import { NotificationModule } from './app/notification/notification.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), CartModule, WalletModule, SkinsModule, AuthModule, ConfigurationModule],
+  imports: [ConfigModule.forRoot(), CartModule, WalletModule, SkinsModule, AuthModule, ConfigurationModule, NotificationModule],
   controllers: [],
   providers: [],
 })

@@ -48,6 +48,17 @@ export class ConfigurationController {
     return this.configurationService.findOneById(id);
   }
 
+  @Get('user/:id')
+  @ApiOperation({ summary: 'Listar uma unica configuração' })
+  @ApiResponse({
+    status: 200,
+    description: 'Dados de uma configuração retornados com sucesso',
+  })
+  @ApiResponse({ status: 400, description: 'Parametros inválidos' })
+  async findOneByUser(@Param('id') id: string) {
+    return this.configurationService.findOneByUser(id);
+  }
+
   @Patch(':id')
   @ApiOperation({ summary: 'Atualizar uma unica configuração' })
   @ApiResponse({

@@ -3,17 +3,17 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateConfigurationDto } from './dto/create-configuration.dto';
-import { UpdateConfigurationDto } from './dto/update-configuration.dto';
+import { CreateNotificationDto } from './dto/create-notification.dto';
+import { UpdateNotificationDto } from './dto/update-notification.dto';
 import { PrismaService } from 'src/database/prisma.service';
 
 @Injectable()
-export class ConfigurationService {
+export class NotificationService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAll() {
     try {
-      return await this.prismaService.configuration.findMany({
+      return await this.prismaService.wallet.findMany({
         where: { deletedAt: null },
       });
     } catch (error) {
@@ -21,9 +21,19 @@ export class ConfigurationService {
     }
   }
 
-  async createNew(data: CreateConfigurationDto) {
+  async findAllByUser(owner_id: string) {
     try {
-      await this.prismaService.configuration.create({ data });
+      return await this.prismaService.wallet.findMany({
+        where: { owner_id, deletedAt: null },
+      });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
+
+  async createNew(data: CreateNotificationDto) {
+    try {
+      await this.prismaService.wallet.create({ data });
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -31,7 +41,7 @@ export class ConfigurationService {
 
   async findOneById(id: string) {
     try {
-      return await this.prismaService.configuration.findFirstOrThrow({
+      return await this.prismaService.wallet.findFirstOrThrow({
         where: { id, deletedAt: null },
       });
     } catch (error) {
@@ -49,9 +59,9 @@ export class ConfigurationService {
     }
   }
 
-  async updateById(id: string, data: UpdateConfigurationDto) {
+  async updateById(id: string, data: UpdateNotificationDto) {
     await this.findOneById(id);
-    return await this.prismaService.configuration.update({
+    return await this.prismaService.wallet.update({
       where: { id },
       data: { ...data, updatedAt: new Date() },
     });
@@ -59,7 +69,7 @@ export class ConfigurationService {
 
   async deleteById(id: string) {
     await this.findOneById(id);
-    await this.prismaService.configuration.update({
+    await this.prismaService.wallet.update({
       where: { id },
       data: { deletedAt: new Date() },
     });
