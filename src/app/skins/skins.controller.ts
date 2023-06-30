@@ -30,6 +30,19 @@ export class SkinsController {
     return this.skinsService.findAll();
   }
 
+  @Get('inventory/:steamID')
+  @ApiOperation({
+    summary: 'Listar todas as skins do inventário de um usuario pela Steam',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista das skins retornada com sucesso',
+  })
+  findAllBySteamInventory(@Param('steamID') id: string) {
+    console.log(id)
+    return this.skinsService.findAllBySteamInventory(id);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Listar uma única skin' })
   @ApiResponse({

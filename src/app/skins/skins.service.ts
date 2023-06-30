@@ -6,10 +6,25 @@ import {
 import { CreateSkinDto } from './dto/create-skin.dto';
 import { UpdateSkinDto } from './dto/update-skin.dto';
 import { PrismaService } from 'src/database/prisma.service';
+import { HttpService } from '@nestjs/axios';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class SkinsService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly httpService: HttpService,
+  ) {}
+
+  async findAllBySteamInventory(steamID: string) {
+    try {
+      const url = `https://steamcommunity.com/inventory/${steamID}/730/2?l=english&count=500%27%27%27`;
+      const { data } = await lastValueFrom(this.httpService.get(url));
+      return data;
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
 
   async findAll() {
     try {
