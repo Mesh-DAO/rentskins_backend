@@ -1,30 +1,20 @@
-import { Controller, Get, Redirect, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
-@Controller('api/v1/auth')
-@ApiTags('Auth')
+@Controller('api/auth/steam')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get()
-  @ApiOperation({ summary: 'Authenticar usuario' })
-  @ApiResponse({
-    status: 200,
-    description: 'Usuario autenticado',
-  })
-  authenticate(@Res() response: Response) {
-    return "em construção";
+  @Get('authenticate')
+  @UseGuards(AuthGuard('steam'))
+  async authenticate(@Res() res) {
+    return await res.redirect('/api/auth/steam/authenticate/callback');
   }
 
-  @Get('callback')
-  @Redirect('https://www.google.com/', 301)
-  @ApiOperation({ summary: 'Callback da autenticação' })
-  @ApiResponse({
-    status: 200,
-    description: 'Callback Retornado',
-  })
-  authenticateCallback(@Req() request: Request, @Res() response: Response) {
-    return "em construção";
+  @Get('authenticate/callback')
+  @UseGuards(AuthGuard('steam'))
+  async authenticateCallback(@Req() req, @Res() res, @Query() params: string) {
+    return this.authService.authenticateCallback(req, res, params);
   }
 }
