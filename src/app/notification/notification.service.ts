@@ -13,7 +13,7 @@ export class NotificationService {
 
   async findAll() {
     try {
-      return await this.prismaService.wallet.findMany({
+      return await this.prismaService.notification.findMany({
         where: { deletedAt: null },
       });
     } catch (error) {
@@ -23,7 +23,7 @@ export class NotificationService {
 
   async findAllByUser(owner_id: string) {
     try {
-      return await this.prismaService.wallet.findMany({
+      return await this.prismaService.notification.findMany({
         where: { owner_id, deletedAt: null },
       });
     } catch (error) {
@@ -33,7 +33,7 @@ export class NotificationService {
 
   async createNew(data: CreateNotificationDto) {
     try {
-      await this.prismaService.wallet.create({ data });
+      await this.prismaService.notification.create({ data });
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -41,7 +41,7 @@ export class NotificationService {
 
   async findOneById(id: string) {
     try {
-      return await this.prismaService.wallet.findFirstOrThrow({
+      return await this.prismaService.notification.findFirstOrThrow({
         where: { id, deletedAt: null },
       });
     } catch (error) {
@@ -51,7 +51,7 @@ export class NotificationService {
 
   async findOneByUser(owner_id: string) {
     try {
-      return await this.prismaService.configuration.findFirstOrThrow({
+      return await this.prismaService.notification.findFirstOrThrow({
         where: { owner_id, deletedAt: null },
       });
     } catch (error) {
@@ -61,7 +61,7 @@ export class NotificationService {
 
   async updateById(id: string, data: UpdateNotificationDto) {
     await this.findOneById(id);
-    return await this.prismaService.wallet.update({
+    return await this.prismaService.notification.update({
       where: { id },
       data: { ...data, updatedAt: new Date() },
     });
@@ -69,7 +69,7 @@ export class NotificationService {
 
   async deleteById(id: string) {
     await this.findOneById(id);
-    await this.prismaService.wallet.update({
+    await this.prismaService.notification.update({
       where: { id },
       data: { deletedAt: new Date() },
     });
