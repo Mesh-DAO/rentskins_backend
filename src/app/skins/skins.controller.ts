@@ -106,7 +106,7 @@ export class SkinsController {
     return this.skinsService.findAllByFloat(float);
   }
 
-  @Get('desc-price')
+  @Get('desc/price')
   @ApiOperation({ summary: 'Listar todas as skins por preço decrescente' })
   @ApiResponse({
     status: 200,
@@ -116,7 +116,7 @@ export class SkinsController {
     return this.skinsService.findAllByDescPrice();
   }
 
-  @Get('desc-float')
+  @Get('desc/float')
   @ApiOperation({ summary: 'Listar todas as skins por float decrescente' })
   @ApiResponse({
     status: 200,
