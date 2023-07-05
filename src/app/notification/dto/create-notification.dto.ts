@@ -19,8 +19,7 @@ export class CreateNotificationDto {
   @ApiPropertyOptional()
   new?: boolean;
 
-  @IsNotEmpty({ message: 'Preencha o id da skin!' })
   @MaxLength(255, { message: 'Tamanho máximo de 255 caracteres!' })
-  @ApiProperty()
-  skin_id: string;
+  @ApiPropertyOptional()
+  skin_id?: string;
 }
